@@ -4,11 +4,15 @@ go 1.19
 
 require (
 	github.com/apache/pulsar-client-go v0.8.1
+	github.com/bytedance/sonic v1.4.0
 	github.com/heyehang/go-im-grpc v0.0.0-20220831134925-780444218a71
-	github.com/heyehang/go-im-pkg v0.0.0-20220901113347-9b07784b773e
 	github.com/panjf2000/ants/v2 v2.5.0
+	github.com/pkg/errors v0.9.1 // indirect
 	github.com/zeromicro/go-zero v1.4.0
+	go.etcd.io/etcd/client/v3 v3.5.4
 )
+
+require github.com/heyehang/go-im-pkg v0.0.0-20220901154744-752df7ae6b56
 
 require (
 	github.com/99designs/keyring v1.1.6 // indirect
@@ -17,7 +21,6 @@ require (
 	github.com/apache/pulsar-client-go/oauth2 v0.0.0-20220120090717-25e59572242e // indirect
 	github.com/ardielle/ardielle-go v1.5.2 // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
-	github.com/bytedance/sonic v1.4.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
 	github.com/chenzhuoyu/base64x v0.0.0-20220526154910-8bf9453eb81a // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
@@ -57,7 +60,6 @@ require (
 	github.com/openzipkin/zipkin-go v0.4.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.2 // indirect
 	github.com/pierrec/lz4 v2.6.1+incompatible // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/prometheus/client_golang v1.12.2 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
@@ -69,7 +71,6 @@ require (
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.4 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.4 // indirect
-	go.etcd.io/etcd/client/v3 v3.5.4 // indirect
 	go.opentelemetry.io/otel v1.9.0 // indirect
 	go.opentelemetry.io/otel/exporters/jaeger v1.9.0 // indirect
 	go.opentelemetry.io/otel/exporters/zipkin v1.9.0 // indirect

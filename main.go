@@ -16,8 +16,10 @@ import (
 	"go-im-work/internal/handler"
 	"go-im-work/internal/svc"
 
+	"github.com/heyehang/go-im-pkg/etcdtool"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
+	clientv3 "go.etcd.io/etcd/client/v3"
 )
 
 var configFile = flag.String("f", "etc/work.yaml", "the config file")
@@ -32,6 +34,15 @@ func main() {
 	defer server.Stop()
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
+
+	etcdcli, err := clientv3.New(clientv3.Config{
+		Endpoints: c.IMServer.Etcd.Hosts,
+	})
+	if err != nil {
+		panic(err)
+	}
+
+	etcdtool.InitEtcd(etcdcli)
 	wg := new(sync.WaitGroup)
 	go func() {
 		wg.Add(1)
