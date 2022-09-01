@@ -1,0 +1,20 @@
+Name: work
+Host: 0.0.0.0
+Port: 10000
+
+WorkPoolSize: 1024
+
+IMServer:
+  Etcd:
+    Hosts:
+      - localhost:2379
+    Key: imserver.rpc
+
+
+Pulsar:
+  Url: pulsar://localhost:6650
+  ConnectionTimeout: 10
+  OperationTimeout: 10
+  MaxConnectionsPerBroker: 100
+  Topic: semd_msg_to_user_topic
+  SubscriptionName: im_work_subscript
