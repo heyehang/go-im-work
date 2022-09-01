@@ -15,9 +15,8 @@ import (
 )
 
 type Worker struct {
-	pool *ants.Pool
-	conf config.Config
-
+	pool     *ants.Pool
+	conf     config.Config
 	IMSrvMap map[string]im_server.IMServerClient
 	RWMutex  sync.RWMutex
 }
@@ -31,8 +30,7 @@ func NewWorker(conf config.Config) *Worker {
 	}
 	w.pool = pool
 	w.conf = conf
-	w.IMSrvMap = make(map[string]im_server.IMServerClient)
-
+	w.IMSrvMap = make(map[string]im_server.IMServerClient, 10)
 	err = w.watchIMServer()
 	if err != nil {
 		panic(err)
@@ -41,6 +39,7 @@ func NewWorker(conf config.Config) *Worker {
 }
 
 type MsgReq struct {
+	ServerKey    string   `json:"server_key"`
 	DeviceTokens []string `json:"device_tokens,omitempty"`
 	// 消息体
 	Msg []byte `protobuf:"json:"msg,omitempty"`
@@ -60,22 +59,28 @@ func (w *Worker) Start(ctx context.Context) {
 			logx.Errorf("SubscribeMsg_Unmarshal_err :%+v", err)
 			return
 		}
-			err = w.pool.Submit(func() {
-				in := new(im_server.SnedMsgReq)
-				in.Msg = msg.Msg
-				in.DeviceTokens = msg.DeviceTokens
-
-				for _, imsrv := range w.IMSrvMap {
-					_, err = imsrv.SnedMsg(context.Background(), in)
-					if err != nil {
-						logx.Errorf("SubscribeMsg_SnedMsg_err :%+v", err)
-						return
-					}
+		err = w.pool.Submit(func() {
+			in := new(im_server.SnedMsgReq)
+			in.Msg = msg.Msg
+			in.DeviceTokens = msg.DeviceTokens
+			// 查找到节点了，定向推
+			cli, ok := w.IMSrvMap[msg.ServerKey]
+			if ok && cli != nil {
+				_, err = cli.SnedMsg(context.Background(), in)
+				if err != nil {
+					logx.Errorf("SubscribeMsg_SnedMsg_err :%+v", err)
+					return
 				}
-
-			})
-
-
+				return
+			}
+			// 没有查找到，广播所有节点
+			for _, imsrv := range w.IMSrvMap {
+				_, err = imsrv.SnedMsg(context.Background(), in)
+				if err != nil {
+					logx.Errorf("SubscribeMsg_SnedMsg_err :%+v", err)
+					return
+				}
+			}
+		})
 	})
-
 }

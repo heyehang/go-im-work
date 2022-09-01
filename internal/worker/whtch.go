@@ -10,19 +10,15 @@ import (
 )
 
 func (w *Worker) watchIMServer() error {
-
-	etcdtool.GetEtcdTool().WatchPrefix(w.conf.IMServer.Etcd.Key, context.Background(), func(status, key, value string) {
-
+	err := etcdtool.GetEtcdTool().WatchPrefix(w.conf.IMServer.Etcd.Key, context.Background(), func(status, key, value string) {
 		logx.Slowf("watchIMServer status:%s, key:%s,val:%s ", status, key, value)
 		w.RWMutex.RLock()
 		defer w.RWMutex.RUnlock()
-
 		switch status {
 		case etcdtool.EtcdKeyCreate, etcdtool.EtcdKeyModify:
 			w.IMSrvMap[key] = im_server.NewIMServerClient(zrpc.MustNewClient(zrpc.RpcClientConf{
 				Endpoints: []string{value},
 			}).Conn())
-
 		case etcdtool.EtcdKeyDelete:
 			delete(w.IMSrvMap, key)
 		default:
@@ -30,7 +26,6 @@ func (w *Worker) watchIMServer() error {
 		}
 		logx.Slowf("watchIMServer status:%s, key:%s,val:%s  success", status, key, value)
 	})
-
-	return nil
+	return err
 
 }
