@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/heyehang/go-im-pkg/pulsarsdk"
 	"go-im-work/internal/worker"
 	"go-im-work/pulsar"
 	"os"
@@ -26,12 +27,11 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 	pulsar.Init(c)
-	defer pulsar.Closed()
+	defer pulsarsdk.Closed()
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
-
 	wg := new(sync.WaitGroup)
 	go func() {
 		wg.Add(1)
@@ -52,7 +52,6 @@ func main() {
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
 			wg.Wait()
-			pulsar.Closed()
 			return
 		case syscall.SIGHUP:
 		default:

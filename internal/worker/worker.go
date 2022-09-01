@@ -39,7 +39,7 @@ type MsgReq struct {
 }
 
 func (w *Worker) Start(ctx context.Context) {
-	pulsarsdk.SubscribeMsg(ctx, w.conf.Pulsar.Topic, w.conf.Pulsar.SubscriptionName, func(message pulsar.Message, err error) {
+	pulsarsdk.SubscribeMsg(ctx, w.conf.Pulsar.Topic, func(message pulsar.Message, err error) {
 		if err != nil {
 			logx.Errorf("SubscribeMsg_err :%+v", err)
 			return
@@ -65,4 +65,5 @@ func (w *Worker) Start(ctx context.Context) {
 			}
 		})
 	})
+
 }

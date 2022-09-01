@@ -1,7 +1,6 @@
 package pulsar
 
 import (
-	"context"
 	"github.com/apache/pulsar-client-go/pulsar"
 	"github.com/heyehang/go-im-pkg/pulsarsdk"
 	"go-im-work/internal/config"
@@ -16,12 +15,4 @@ func Init(conf config.Config) {
 		OperationTimeout:        time.Second * time.Duration(conf.Pulsar.OperationTimeout),
 		MaxConnectionsPerBroker: conf.Pulsar.MaxConnectionsPerBroker,
 	})
-}
-
-func SubscribeMsg(ctx context.Context, topic, SubscriptionName string, callBack pulsarsdk.Subscriber) {
-	pulsarsdk.SubscribeMsg(ctx, topic, SubscriptionName, callBack)
-}
-
-func Closed() {
-	pulsarsdk.Closed()
 }
