@@ -34,26 +34,26 @@ func main() {
 	defer server.Stop()
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
-
 	etcdcli, err := clientv3.New(clientv3.Config{
 		Endpoints: c.IMServer.Etcd.Hosts,
 	})
 	if err != nil {
 		panic(err)
 	}
-
 	etcdtool.InitEtcd(etcdcli)
 	wg := new(sync.WaitGroup)
+	wg.Add(1)
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
 		server.Start()
 	}()
 	w := worker.NewWorker(c)
+	wg.Add(1)
 	go func() {
-		wg.Add(1)
 		defer wg.Done()
-		w.Start(context.Background())
+		ctx1, cancel := context.WithCancel(context.Background())
+		defer cancel()
+		w.Start(ctx1)
 	}()
 	sig := make(chan os.Signal, 1)
 	//syscall.SIGINT 线上记得加上这个信号 ctrl + c
@@ -70,5 +70,4 @@ func main() {
 		}
 	}
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
-
 }
