@@ -16,7 +16,7 @@ func (w *Worker) watchIMServer() error {
 		defer w.RWMutex.RUnlock()
 		switch status {
 		case etcdtool.EtcdKeyCreate, etcdtool.EtcdKeyModify:
-			w.IMSrvMap[key] = im_server.NewIMServerClient(zrpc.MustNewClient(zrpc.RpcClientConf{
+			w.IMSrvMap[key] = im_server.NewImClient(zrpc.MustNewClient(zrpc.RpcClientConf{
 				Endpoints: []string{value},
 			}).Conn())
 		case etcdtool.EtcdKeyDelete:

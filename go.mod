@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/apache/pulsar-client-go v0.8.1
 	github.com/bytedance/sonic v1.4.0
-	github.com/heyehang/go-im-grpc v0.0.0-20220831134925-780444218a71
+	github.com/heyehang/go-im-grpc v0.0.0-20220903144934-7b5ae832322a
 	github.com/heyehang/go-im-pkg v0.0.0-20220901173715-97f1926f2682
 	github.com/panjf2000/ants/v2 v2.5.0
 	github.com/pkg/errors v0.9.1 // indirect

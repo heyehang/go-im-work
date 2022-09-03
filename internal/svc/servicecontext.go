@@ -8,12 +8,12 @@ import (
 
 type ServiceContext struct {
 	Config   config.Config
-	IMSrvCli im_server.IMServerClient
+	IMSrvCli im_server.ImClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config:   c,
-		IMSrvCli: im_server.NewIMServerClient(zrpc.MustNewClient(c.IMServer).Conn()),
+		IMSrvCli: im_server.NewImClient(zrpc.MustNewClient(c.IMServer).Conn()),
 	}
 }

@@ -17,7 +17,7 @@ import (
 type Worker struct {
 	pool     *ants.Pool
 	conf     config.Config
-	IMSrvMap map[string]im_server.IMServerClient
+	IMSrvMap map[string]im_server.ImClient
 	RWMutex  sync.RWMutex
 }
 
@@ -30,7 +30,7 @@ func NewWorker(conf config.Config) *Worker {
 	}
 	w.pool = pool
 	w.conf = conf
-	w.IMSrvMap = make(map[string]im_server.IMServerClient, 10)
+	w.IMSrvMap = make(map[string]im_server.ImClient, 10)
 	err = w.watchIMServer()
 	if err != nil {
 		panic(err)
