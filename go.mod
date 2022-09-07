@@ -6,7 +6,7 @@ require (
 	github.com/apache/pulsar-client-go v0.8.1
 	github.com/bytedance/sonic v1.4.0
 	github.com/heyehang/go-im-grpc v0.0.0-20220903144934-7b5ae832322a
-	github.com/heyehang/go-im-pkg v0.0.0-20220901173715-97f1926f2682
+	github.com/heyehang/go-im-pkg v0.0.0-20220906082711-4b01a14ca8a8
 	github.com/panjf2000/ants/v2 v2.5.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/zeromicro/go-zero v1.4.0
@@ -16,7 +16,7 @@ require (
 require (
 	github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 // indirect
 	github.com/99designs/keyring v1.2.1 // indirect
-	github.com/AthenZ/athenz v1.11.7 // indirect
+	github.com/AthenZ/athenz v1.11.8 // indirect
 	github.com/DataDog/zstd v1.5.2 // indirect
 	github.com/PuerkitoBio/purell v1.1.1 // indirect
 	github.com/PuerkitoBio/urlesc v0.0.0-20170810143723-de5bf2ad4578 // indirect
@@ -88,9 +88,9 @@ require (
 	go.uber.org/multierr v1.8.0 // indirect
 	go.uber.org/zap v1.21.0 // indirect
 	golang.org/x/arch v0.0.0-20220823144127-ada1728cebaa // indirect
-	golang.org/x/net v0.0.0-20220826154423-83b083e8dc8b // indirect
+	golang.org/x/net v0.0.0-20220906165146-f3363e06e74c // indirect
 	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094 // indirect
-	golang.org/x/sys v0.0.0-20220829200755-d48e67d00261 // indirect
+	golang.org/x/sys v0.0.0-20220906165534-d0df966e6959 // indirect
 	golang.org/x/term v0.0.0-20220722155259-a9ba230a4035 // indirect
 	golang.org/x/text v0.3.7 // indirect
 	golang.org/x/time v0.0.0-20220411224347-583f2d630306 // indirect

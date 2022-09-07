@@ -5,6 +5,9 @@ import (
 	"flag"
 	"fmt"
 	"github.com/heyehang/go-im-pkg/pulsarsdk"
+	"github.com/heyehang/go-im-pkg/tlog"
+	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"go-im-work/internal/worker"
 	"go-im-work/pulsar"
 	"os"
@@ -17,7 +20,6 @@ import (
 	"go-im-work/internal/svc"
 
 	"github.com/heyehang/go-im-pkg/etcdtool"
-	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 	clientv3 "go.etcd.io/etcd/client/v3"
 )
@@ -28,6 +30,11 @@ func main() {
 	flag.Parse()
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+	logx.MustSetup(c.Log)
+	fileWriter := logx.Reset()
+	writer, err := tlog.NewMultiWriter(fileWriter)
+	logx.Must(err)
+	logx.SetWriter(writer)
 	pulsar.Init(c)
 	defer pulsarsdk.Closed()
 	server := rest.MustNewServer(c.RestConf)
@@ -55,6 +62,7 @@ func main() {
 		defer cancel()
 		w.Start(ctx1)
 	}()
+	logx.Info("listen on http port ", fmt.Sprintf("addr: %s:%d", c.Host, c.Port))
 	sig := make(chan os.Signal, 1)
 	//syscall.SIGINT 线上记得加上这个信号 ctrl + c
 	signal.Notify(sig, syscall.SIGHUP, syscall.SIGQUIT, syscall.SIGTERM)

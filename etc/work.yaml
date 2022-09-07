@@ -7,14 +7,24 @@ WorkPoolSize: 1024
 IMServer:
   Etcd:
     Hosts:
-      - 127.0.0.1:2379
+      - 159.75.35.91:2379
     Key: imserver.rpc
-
+    User: root
+    Pass: im-server-256/?
 
 Pulsar:
-  Url: pulsar://localhost:6650
+  Url: pulsar://106.52.4.215:6650
   ConnectionTimeout: 10
   OperationTimeout: 10
   MaxConnectionsPerBroker: 100
   Topic: semd_msg_to_user_topic
   SubscriptionName: im_work_subscript
+
+
+Log:
+  Mode : volume
+  ServiceName : im-work
+
+
+
+
