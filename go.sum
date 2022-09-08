@@ -353,8 +353,8 @@ github.com/hashicorp/memberlist v0.1.3/go.mod h1:ajVTdAv/9Im8oMAAj5G31PhhMCZJV2p
 github.com/hashicorp/serf v0.8.2/go.mod h1:6hOLApaqBFA1NXqRQAsxw9QxuDEvNxSQRwA/JwenrHc=
 github.com/heyehang/go-im-grpc v0.0.0-20220903144934-7b5ae832322a h1:e/qe/0QvFORpgedU5hamG/kk5b2zruTrW6WJHdoMIdc=
 github.com/heyehang/go-im-grpc v0.0.0-20220903144934-7b5ae832322a/go.mod h1:smTsxWV3vlZ1TwXGtbf77+PbcptFLryYBzsgOpfJeGI=
-github.com/heyehang/go-im-pkg v0.0.0-20220908092825-48ff4346c720 h1:xcSkKQG7aKPidvfloaTxHXAxabvGqcH9iZmlmbMeKzU=
-github.com/heyehang/go-im-pkg v0.0.0-20220908092825-48ff4346c720/go.mod h1:xoniY4/gp3o8Eq3EF4jBP1O1qxmuLJjKwOOhQoRN1Yg=
+github.com/heyehang/go-im-pkg v0.0.0-20220908123533-c24fd5036c7f h1:PElWy9YgPDvuS0QJWe8+x/7CrKhRSspWnZ5xdb42xWM=
+github.com/heyehang/go-im-pkg v0.0.0-20220908123533-c24fd5036c7f/go.mod h1:RadT3gTYaT4kM5/zXzk/M+wLsp+kcX0U65nxOS8i2m8=
 github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpOxQnU=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
