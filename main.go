@@ -77,7 +77,6 @@ func main() {
 		}()
 		startPyroscope()
 	}()
-
 	logx.Info("listen on http port ", fmt.Sprintf("addr: %s:%d", c.Host, c.Port))
 	sig := make(chan os.Signal, 1)
 	//syscall.SIGINT 线上记得加上这个信号 ctrl + c
@@ -101,9 +100,9 @@ func startPyroscope() {
 	runtime.SetBlockProfileRate(5)
 	var err error
 	profile, err = pyroscope.Start(pyroscope.Config{
-		ApplicationName: "go-im-server",
+		ApplicationName: "go-im-work",
 		// replace this with the address of pyroscope server
-		ServerAddress: "http://172.16.0.15:4040",
+		ServerAddress: "http://127.0.0.1:4040",
 		// you can disable logging by setting this to nil
 		Logger: pyroscope.StandardLogger,
 		// optionally, if authentication is enabled, specify the API key:

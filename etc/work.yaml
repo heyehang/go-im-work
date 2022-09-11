@@ -1,19 +1,17 @@
 Name: work
 Host: 0.0.0.0
-Port: 10001
+Port: 6600
 
 WorkPoolSize: 1024
 
 IMServer:
   Etcd:
     Hosts:
-      - 159.75.35.91:2379
+      - 127.0.0.1:2379
     Key: imserver.rpc
-    User: root
-    Pass: im-server-256/?
 
 Pulsar:
-  Url: pulsar://106.52.4.215:6650
+  Url: pulsar://127.0.0.1:6650
   ConnectionTimeout: 10
   OperationTimeout: 10
   MaxConnectionsPerBroker: 100

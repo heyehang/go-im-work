@@ -10,7 +10,22 @@ import (
 )
 
 func (w *Worker) watchIMServer() error {
-	err := etcdtool.GetEtcdTool().WatchPrefix(w.conf.IMServer.Etcd.Key, context.Background(), func(status, key, value string) {
+	// 获取imserver 节点地址列表
+	serverListMp, err := etcdtool.GetEtcdTool().GetPrefix(w.conf.IMServer.Etcd.Key)
+	if err != nil {
+		panic(err)
+	}
+	if len(serverListMp) <= 0 {
+		panic("imserver not start")
+	}
+	w.RWMutex.RLock()
+	for key, value := range serverListMp {
+		w.IMSrvMap[key] = im_server.NewImClient(zrpc.MustNewClient(zrpc.RpcClientConf{
+			Endpoints: []string{value},
+		}).Conn())
+	}
+	w.RWMutex.RUnlock()
+	err = etcdtool.GetEtcdTool().WatchPrefix(w.conf.IMServer.Etcd.Key, context.Background(), func(status, key, value string) {
 		logx.Slowf("watchIMServer status:%s, key:%s,val:%s ", status, key, value)
 		w.RWMutex.RLock()
 		defer w.RWMutex.RUnlock()
