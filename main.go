@@ -70,12 +70,12 @@ func main() {
 	wg.Add(1)
 	go func() {
 		defer wg.Done()
+		startPyroscope(c)
 		defer func() {
 			if profile != nil {
 				_ = profile.Stop()
 			}
 		}()
-		startPyroscope()
 	}()
 	logx.Info("listen on http port ", fmt.Sprintf("addr: %s:%d", c.Host, c.Port))
 	sig := make(chan os.Signal, 1)
@@ -95,15 +95,17 @@ func main() {
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 }
 
-func startPyroscope() {
-	runtime.SetMutexProfileFraction(5)
-	runtime.SetBlockProfileRate(5)
+func startPyroscope(conf config.Config) {
+	// 生产可以关闭采样
+	runtime.SetMutexProfileFraction(100)
+	runtime.SetBlockProfileRate(100)
 	var err error
 	profile, err = pyroscope.Start(pyroscope.Config{
-		ApplicationName: "go-im-work",
+		ApplicationName: conf.Name,
 		// replace this with the address of pyroscope server
-		ServerAddress: "http://127.0.0.1:4040",
+		ServerAddress: conf.PyroscopeAddr,
 		// you can disable logging by setting this to nil
+		// todo 记得替换log
 		Logger: pyroscope.StandardLogger,
 		// optionally, if authentication is enabled, specify the API key:
 		// AuthToken: os.Getenv("PYROSCOPE_AUTH_TOKEN"),

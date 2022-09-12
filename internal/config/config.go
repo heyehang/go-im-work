@@ -7,9 +7,10 @@ import (
 
 type Config struct {
 	rest.RestConf
-	IMServer     zrpc.RpcClientConf
-	WorkPoolSize int `json:",optional"`
-	Pulsar       *Pulsar
+	IMServer      zrpc.RpcClientConf
+	WorkPoolSize  int `json:",optional"`
+	Pulsar        *Pulsar
+	PyroscopeAddr string `json:",optional"`
 }
 
 type Pulsar struct {
