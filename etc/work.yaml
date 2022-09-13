@@ -2,7 +2,6 @@ Name: work
 Host: 0.0.0.0
 Port: 6700
 PyroscopeAddr: 'http://127.0.0.1:4040'
-
 WorkPoolSize: 1024
 
 IMServer:

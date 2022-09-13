@@ -355,6 +355,8 @@ github.com/heyehang/go-im-grpc v0.0.0-20220903144934-7b5ae832322a h1:e/qe/0QvFOR
 github.com/heyehang/go-im-grpc v0.0.0-20220903144934-7b5ae832322a/go.mod h1:smTsxWV3vlZ1TwXGtbf77+PbcptFLryYBzsgOpfJeGI=
 github.com/heyehang/go-im-pkg v0.0.0-20220911101053-cef16447a581 h1:wuqgGQTxGpl24jHOqStcE4aDWlqMF4M5VScF2RY9lTs=
 github.com/heyehang/go-im-pkg v0.0.0-20220911101053-cef16447a581/go.mod h1:1ecfN1CK7wbLfKfJ2eSBIL3ex0Cb6sZRY+yBEOKaJ2o=
+github.com/heyehang/go-im-pkg v0.0.0-20220911130855-8639602fc201 h1:lum/HYBGQMaXipev2IBLDGTaY0wcxcUb1XbJ4d3bl2k=
+github.com/heyehang/go-im-pkg v0.0.0-20220911130855-8639602fc201/go.mod h1:JA+dy07hEVVLliHg+2hUXzKqMm3C49DBhL3YKMaCFh4=
 github.com/hpcloud/tail v1.0.0/go.mod h1:ab1qPbhIpdTxEkNHXyeSf5vhxWSCs/tWer42PpOxQnU=
 github.com/ianlancetaylor/demangle v0.0.0-20181102032728-5e5cf60278f6/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=
 github.com/ianlancetaylor/demangle v0.0.0-20200824232613-28f6c0f3b639/go.mod h1:aSSvb/t6k1mPoxDqO4vJh6VOCGPwU4O0C2/Eqndh1Sc=

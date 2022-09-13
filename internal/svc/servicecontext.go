@@ -11,9 +11,13 @@ type ServiceContext struct {
 	IMSrvCli im_server.ImClient
 }
 
-func NewServiceContext(c config.Config) *ServiceContext {
-	return &ServiceContext{
-		Config:   c,
-		IMSrvCli: im_server.NewImClient(zrpc.MustNewClient(c.IMServer).Conn()),
+func NewServiceContext(c config.Config) (*ServiceContext, error) {
+	ctx := new(ServiceContext)
+	ctx.Config = c
+	cli, err := zrpc.NewClient(c.IMServer)
+	if err != nil {
+		return nil, err
 	}
+	ctx.IMSrvCli = im_server.NewImClient(cli.Conn())
+	return ctx, nil
 }

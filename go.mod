@@ -6,7 +6,7 @@ require (
 	github.com/apache/pulsar-client-go v0.8.1
 	github.com/bytedance/sonic v1.4.0
 	github.com/heyehang/go-im-grpc v0.0.0-20220903144934-7b5ae832322a
-	github.com/heyehang/go-im-pkg v0.0.0-20220911101053-cef16447a581
+	github.com/heyehang/go-im-pkg v0.0.0-20220911130855-8639602fc201
 	github.com/panjf2000/ants/v2 v2.5.0
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/zeromicro/go-zero v1.4.0

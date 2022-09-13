@@ -4,29 +4,26 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/heyehang/go-im-pkg/etcdtool"
 	"github.com/heyehang/go-im-pkg/pulsarsdk"
 	"github.com/heyehang/go-im-pkg/tlog"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
-	"go-im-work/internal/worker"
-	"go-im-work/pulsar"
-	"os"
-	"os/signal"
-	"runtime"
-	"sync"
-	"syscall"
-
-	"github.com/heyehang/go-im-pkg/etcdtool"
-	"github.com/pyroscope-io/client/pyroscope"
 	"github.com/zeromicro/go-zero/rest"
 	"go-im-work/internal/config"
 	"go-im-work/internal/handler"
 	"go-im-work/internal/svc"
+	"go-im-work/internal/worker"
+	"go-im-work/pkg/pulsar"
+	"go-im-work/pkg/pyroscope"
 	clientv3 "go.etcd.io/etcd/client/v3"
+	"os"
+	"os/signal"
+	"sync"
+	"syscall"
 )
 
 var (
-	profile    *pyroscope.Profiler
 	configFile = flag.String("f", "etc/work.yaml", "the config file")
 )
 
@@ -43,8 +40,11 @@ func main() {
 	defer pulsarsdk.Closed()
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
-	ctx := svc.NewServiceContext(c)
-	handler.RegisterHandlers(server, ctx)
+	serverCtx, err := svc.NewServiceContext(c)
+	if err != nil {
+		panic(err)
+	}
+	handler.RegisterHandlers(server, serverCtx)
 	etcdcli, err := clientv3.New(clientv3.Config{
 		Endpoints: c.IMServer.Etcd.Hosts,
 	})
@@ -66,17 +66,9 @@ func main() {
 		defer cancel()
 		w.Start(ctx1)
 	}()
-
-	wg.Add(1)
-	go func() {
-		defer wg.Done()
-		startPyroscope(c)
-		defer func() {
-			if profile != nil {
-				_ = profile.Stop()
-			}
-		}()
-	}()
+	cancelCtx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	pyroscope.Start(cancelCtx, wg, c.Name, c.PyroscopeAddr, nil, true)
 	logx.Info("listen on http port ", fmt.Sprintf("addr: %s:%d", c.Host, c.Port))
 	sig := make(chan os.Signal, 1)
 	//syscall.SIGINT 线上记得加上这个信号 ctrl + c
@@ -85,6 +77,7 @@ func main() {
 		s := <-sig
 		switch s {
 		case syscall.SIGQUIT, syscall.SIGTERM, syscall.SIGINT:
+			pyroscope.Closed()
 			wg.Wait()
 			return
 		case syscall.SIGHUP:
@@ -93,40 +86,4 @@ func main() {
 		}
 	}
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
-}
-
-func startPyroscope(conf config.Config) {
-	// 生产可以关闭采样
-	runtime.SetMutexProfileFraction(100)
-	runtime.SetBlockProfileRate(100)
-	var err error
-	profile, err = pyroscope.Start(pyroscope.Config{
-		ApplicationName: conf.Name,
-		// replace this with the address of pyroscope server
-		ServerAddress: conf.PyroscopeAddr,
-		// you can disable logging by setting this to nil
-		// todo 记得替换log
-		Logger: pyroscope.StandardLogger,
-		// optionally, if authentication is enabled, specify the API key:
-		// AuthToken: os.Getenv("PYROSCOPE_AUTH_TOKEN"),
-		ProfileTypes: []pyroscope.ProfileType{
-			// these profile types are enabled by default:
-			pyroscope.ProfileCPU,
-			pyroscope.ProfileAllocObjects,
-			pyroscope.ProfileAllocSpace,
-			pyroscope.ProfileInuseObjects,
-			pyroscope.ProfileInuseSpace,
-			// these profile types are optional:
-			pyroscope.ProfileGoroutines,
-			pyroscope.ProfileMutexCount,
-			pyroscope.ProfileMutexDuration,
-			pyroscope.ProfileBlockCount,
-			pyroscope.ProfileBlockDuration,
-		},
-		SampleRate: 200,
-	})
-	if err != nil {
-		panic(err)
-		return
-	}
 }
